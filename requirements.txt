@@ -1,0 +1,4 @@
+Django==1.10.5
+django-extensions==1.7.6
+djangorestframework==3.5.3
+mock==2.0.0
