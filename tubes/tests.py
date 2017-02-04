@@ -5,7 +5,7 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 from django.test import override_settings
 from django.urls import reverse
 from django.contrib.auth.models import User
-from tubes.models import Unit, ContainerKind, Content, Container, Substance, TransferGroup, TransferPlan
+from tubes.models import Unit, ContainerKind, Content, Container, Substance, TransferGroup, TransferLog, TransferPlan
 from django.conf import settings
 from mock import patch
 
@@ -66,7 +66,7 @@ class TransferTestCase(BaseTransferTestCase):
  			'Transfer of 0.2 ml of Bortezomib from TubeA to TubeB'
  		]
 
-		self.assertEqual([str(x) for x in TransferGroup.objects.first().transfer_logs.all()], expected_logs)
+		self.assertEqual([str(x) for x in TransferLog.objects.all()], expected_logs)
 
 	def test_chain_transfer(self):
 		""" Check that a series of transfers between multiple tubes with stuff in two of them produces the expected result """
@@ -110,3 +110,4 @@ class TestAuth(BaseTransferTestCase):
 		self.client.login(username='tmp', password='tmp')
 		response = self.client.post(self.transfer_url, {'into': 2})
 		self.assertEqual(response.status_code, 200)
+		self.assertEqual(TransferGroup.objects.first().executed_by.username, 'tmp')

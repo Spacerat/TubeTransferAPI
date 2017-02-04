@@ -9,7 +9,6 @@ from rest_framework.decorators import detail_route
 from django.shortcuts import get_object_or_404
 
 
-
 class ContainerViewSet(viewsets.ModelViewSet):
 	""" This model implements the /containers/ endpoints. Since it's based on 
 	ModelViewSet it gets GET/PUSH/etc for free.  """

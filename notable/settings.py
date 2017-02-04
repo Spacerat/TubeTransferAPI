@@ -25,6 +25,8 @@ SECRET_KEY = 'hycx%6t68w@t!e-z7tnpb764wz&^%1e4n5%0xmjmws@o7+(aj('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 TESTING = sys.argv[1:2] == ['test']
+
+# Set to True to log all SQL queries
 LOG_SQL = False
 
 ALLOWED_HOSTS = []

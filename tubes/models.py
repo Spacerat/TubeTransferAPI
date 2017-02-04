@@ -4,6 +4,7 @@ from rest_framework.exceptions import APIException
 from django.db.models import F, Sum
 from django.db import models, transaction
 from django.db.models import Prefetch
+from django.contrib.auth.models import AnonymousUser
 
 class TransferError(APIException):
     """ Base class for a logical error during a transfer """
@@ -11,7 +12,7 @@ class TransferError(APIException):
 
 class Unit(models.Model):
     """ A unit keeps track of the volume of a given unit relative to 1ml """
-    short_name = models.CharField(max_length=5, unique=True)
+    short_name = models.CharField(max_length=5)
     long_name = models.CharField(max_length=30, unique=True)
     to_ml = models.FloatField()
 
@@ -109,6 +110,7 @@ class BaseContent(VolumeModel):
         self.concentration = (self.concentration * my_old + new_content.concentration * their_old) / new_vol
         self.set_ml(new_vol)
 
+
     def __str__(self):
         return "{} {} of {}".format(self.quantity, self.unit.short_name, self.substance.name)
 
@@ -135,6 +137,10 @@ class TransferGroup(models.Model):
         with transaction.atomic():
             for transfer in self.transfer_plans.all():
                 transfer_number += transfer.execute(transfer_number=transfer_number)
+
+            if not isinstance(user, AnonymousUser):
+                self.executed_by = user
+                self.save()
 
 class TransferPlan(models.Model):
     """ A TransferPlan is a proposed transfer. It says "transfer everything from A to B" """
