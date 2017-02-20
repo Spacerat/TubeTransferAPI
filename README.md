@@ -1,6 +1,6 @@
 # Notable Tubes Transfer System
 
-Here's my submission for Notable's take-home assignment. I will admit now, I got a bit overexcited and ended up implementing pretty much everything.... (partly as an opportunity to learn Django Rest Framework (it's a pretty neat framework, in my opinion!))
+A chemical transfer tracker app written in Django Rest Framework, written for an interview take-home exercise. I got a bit overexcited and ended up implementing pretty much everything in the spec.... (partly as an opportunity to learn Django Rest Framework (it's a pretty neat framework, in my opinion!))
 
 ## Setup
     
